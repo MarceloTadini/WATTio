@@ -1,3 +1,4 @@
+import SliderPrice from '../Slider/index.jsx';
 import * as S from './style.js';
 import { useState } from 'react';
 
@@ -5,7 +6,6 @@ function Container() {
   const [inputValue, setInputValue] = useState('R$1.000,00');
   const [offers, setOffers] = useState([]);
   const [selectedOffer, setSelectedOffer] = useState(null);
-  const [economy, setEconomy] = useState(null);
 
   function handleOnChange(event) {
     const inputValue = event.target.value;
@@ -51,29 +51,22 @@ function Container() {
     setOffers(availableOffers);
   }
 
-  function handleOfferChange(event) {
-    const selectedOfferName = event.target.value;
-    const selectedOffer = offers.find(offer => offer.nome === selectedOfferName);
-    setSelectedOffer(selectedOffer);
-    setEconomy(null);
-  }
-
   function handleCalculateEconomy() {
     if (selectedOffer) {
       const numericValue = parseFloat(inputValue.replace(/\D/g, '')) / 100;
-      const calculatedEconomy = numericValue * selectedOffer.desconto;
-      setEconomy(calculatedEconomy);
+      const economy = numericValue * selectedOffer.desconto;
+      console.log('Economia:', economy);
     }
   }
+
 
   return (
     <S.MainContainer onSubmit={handleOnSubmit}>
       <S.Title>Calcule a economia da sua empresa</S.Title>
-      <S.Description>
-        O valor médio mensal da minha conta de energia é:
-      </S.Description>
+      <S.Description>O valor médio mensal da minha conta de energia é:</S.Description>
       <S.Input value={inputValue} onChange={handleOnChange} />
       <S.InputDescription>Digite o valor. Mínimo de R$1.000,00</S.InputDescription>
+      <SliderPrice></SliderPrice>
       <S.CalculateButton type="submit">Calcular Ofertas!</S.CalculateButton>
       {offers.length > 0 && (
         <div>
@@ -81,15 +74,10 @@ function Container() {
           <ul>
             {offers.map((offer, index) => (
               <li key={index}>
-                <label>
-                  <input
-                    type="radio"
-                    value={offer.nome}
-                    checked={selectedOffer && selectedOffer.nome === offer.nome}
-                    onChange={handleOfferChange}
-                  />
-                  {offer.nome} - Desconto: {offer.desconto * 100}%
-                </label>
+                {offer.nome} - Desconto: {offer.desconto * 100}%
+                <button onClick={() => setSelectedOffer(offer)}>
+                  Selecionar Oferta
+                </button>
               </li>
             ))}
           </ul>
@@ -100,9 +88,6 @@ function Container() {
               <button onClick={handleCalculateEconomy}>
                 Calcular Economia
               </button>
-              {economy !== null && (
-                <p>Economia: R${economy},00</p>
-              )}
             </div>
           )}
         </div>
