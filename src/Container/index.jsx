@@ -1,5 +1,6 @@
 import * as S from './style.js';
 import { useState } from 'react';
+import { OfferContext, useOfferContext } from '../Context/index.jsx';
 
 function Container() {
   const [inputValue, setInputValue] = useState('R$1.000,00');
@@ -66,8 +67,55 @@ function Container() {
     }
   }
 
+  function OfferSection() {
+    const { offers, selectedOffer, economy, handleOfferChange, handleCalculateEconomy } = useOfferContext();
+  
+    return (
+      <div>
+        <h2>Ofertas Disponíveis:</h2>
+        <ul>
+          {offers.map((offer, index) => (
+            <li key={index}>
+              <label>
+                <input
+                  type="radio"
+                  value={offer.nome}
+                  checked={selectedOffer && selectedOffer.nome === offer.nome}
+                  onChange={handleOfferChange}
+                />
+                {offer.nome} - Desconto: {offer.desconto * 100}%
+              </label>
+            </li>
+          ))}
+        </ul>
+        {selectedOffer && (
+          <div>
+            <h3>Oferta Selecionada:</h3>
+            <p>{selectedOffer.nome}</p>
+            <button onClick={handleCalculateEconomy}>
+              Calcular Economia
+            </button>
+            {economy !== null && (
+              <p>Economia: R${economy.toFixed(2)},00</p>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
+  
+
   return (
-    <S.MainContainer onSubmit={handleOnSubmit}>
+    <OfferContext.Provider
+    value={{
+      offers,
+      selectedOffer,
+      economy,
+      handleOfferChange,
+      handleCalculateEconomy
+    }}
+    >
+      <S.MainContainer onSubmit={handleOnSubmit}>
       <S.Title>Calcule a economia da sua empresa</S.Title>
       <S.Description>
         O valor médio mensal da minha conta de energia é:
@@ -75,39 +123,9 @@ function Container() {
       <S.Input value={inputValue} onChange={handleOnChange} />
       <S.InputDescription>Digite o valor. Mínimo de R$1.000,00</S.InputDescription>
       <S.CalculateButton type="submit">Calcular Ofertas!</S.CalculateButton>
-      {offers.length > 0 && (
-        <div>
-          <h2>Ofertas Disponíveis:</h2>
-          <ul>
-            {offers.map((offer, index) => (
-              <li key={index}>
-                <label>
-                  <input
-                    type="radio"
-                    value={offer.nome}
-                    checked={selectedOffer && selectedOffer.nome === offer.nome}
-                    onChange={handleOfferChange}
-                  />
-                  {offer.nome} - Desconto: {offer.desconto * 100}%
-                </label>
-              </li>
-            ))}
-          </ul>
-          {selectedOffer && (
-            <div>
-              <h3>Oferta Selecionada:</h3>
-              <p>{selectedOffer.nome}</p>
-              <button onClick={handleCalculateEconomy}>
-                Calcular Economia
-              </button>
-              {economy !== null && (
-                <p>Economia: R${economy},00</p>
-              )}
-            </div>
-          )}
-        </div>
-      )}
+      {offers.length > 0 && <OfferSection />}
     </S.MainContainer>
+    </OfferContext.Provider>
   );
 }
 
