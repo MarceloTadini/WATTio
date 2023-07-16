@@ -62,6 +62,42 @@ export const CalculateButton = styled.button`
   }
 `
 
+export const OffersDiv= styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 2rem;
+`
+
+export const UlOffers = styled.ul`
+  list-style-type: none;
+  margin: 1rem 0;
+`
+export const LiOffers = styled.div`
+  background-color: ${(props) => props.theme['green-500']};
+  padding: 1.5rem;
+  font-size: 1.6rem;
+  margin: 1rem 0;
+
+  display: flex;
+  align-items: center;
+`
+export const LabelOffers = styled.div`
+  font-weight: bold;
+`
+
+export const SelectedOfferDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const SelectedOfferP = styled.p`
+  font-size: 1.6rem;
+  margin: 1rem 0;
+`
+
 export const BaseCountdownButton = styled.button`
   width: 100%;
   border: 0;

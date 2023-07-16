@@ -69,14 +69,14 @@ function Container() {
 
   function OfferSection() {
     const { offers, selectedOffer, economy, handleOfferChange, handleCalculateEconomy } = useOfferContext();
-  
+
     return (
-      <div>
-        <h2>Ofertas Disponíveis:</h2>
-        <ul>
+      <S.OffersDiv>
+        <S.Title>Ofertas Disponíveis:</S.Title>
+        <S.UlOffers>
           {offers.map((offer, index) => (
-            <li key={index}>
-              <label>
+            <S.LiOffers key={index}>
+              <S.LabelOffers>
                 <input
                   type="radio"
                   value={offer.nome}
@@ -84,47 +84,47 @@ function Container() {
                   onChange={handleOfferChange}
                 />
                 {offer.nome} - Desconto: {offer.desconto * 100}%
-              </label>
-            </li>
+              </S.LabelOffers>
+            </S.LiOffers>
           ))}
-        </ul>
+        </S.UlOffers>
         {selectedOffer && (
-          <div>
-            <h3>Oferta Selecionada:</h3>
-            <p>{selectedOffer.nome}</p>
+          <S.SelectedOfferDiv>
+            <S.Title>Oferta Selecionada:</S.Title>
+            <S.SelectedOfferP>{selectedOffer.nome}</S.SelectedOfferP>
             <button onClick={handleCalculateEconomy}>
               Calcular Economia
             </button>
             {economy !== null && (
-              <p>Economia: R${economy.toFixed(2)},00</p>
+              <p>Economia: R${economy * 12},00 por ano <span>R${economy},00 por mês</span></p>
             )}
-          </div>
+          </S.SelectedOfferDiv>
         )}
-      </div>
+      </S.OffersDiv>
     );
   }
-  
+
 
   return (
     <OfferContext.Provider
-    value={{
-      offers,
-      selectedOffer,
-      economy,
-      handleOfferChange,
-      handleCalculateEconomy
-    }}
+      value={{
+        offers,
+        selectedOffer,
+        economy,
+        handleOfferChange,
+        handleCalculateEconomy
+      }}
     >
       <S.MainContainer onSubmit={handleOnSubmit}>
-      <S.Title>Calcule a economia da sua empresa</S.Title>
-      <S.Description>
-        O valor médio mensal da minha conta de energia é:
-      </S.Description>
-      <S.Input value={inputValue} onChange={handleOnChange} />
-      <S.InputDescription>Digite o valor. Mínimo de R$1.000,00</S.InputDescription>
-      <S.CalculateButton type="submit">Calcular Ofertas!</S.CalculateButton>
+        <S.Title>Calcule a economia da sua empresa</S.Title>
+        <S.Description>
+          O valor médio mensal da minha conta de energia é:
+        </S.Description>
+        <S.Input value={inputValue} onChange={handleOnChange} />
+        <S.InputDescription>Digite o valor. Mínimo de R$1.000,00</S.InputDescription>
+        <S.CalculateButton type="submit">Calcular Ofertas!</S.CalculateButton>
+      </S.MainContainer>
       {offers.length > 0 && <OfferSection />}
-    </S.MainContainer>
     </OfferContext.Provider>
   );
 }
