@@ -76,8 +76,9 @@ function Container() {
         <S.UlOffers>
           {offers.map((offer, index) => (
             <S.LiOffers key={index}>
-              <S.LabelOffers>
+              <S.LabelOffers htmlFor={`offer_${index}`}>
                 <input
+                  id={`offer_${index}`}
                   type="radio"
                   value={offer.nome}
                   checked={selectedOffer && selectedOffer.nome === offer.nome}
@@ -92,11 +93,11 @@ function Container() {
           <S.SelectedOfferDiv>
             <S.Title>Oferta Selecionada:</S.Title>
             <S.SelectedOfferP>{selectedOffer.nome}</S.SelectedOfferP>
-            <button onClick={handleCalculateEconomy}>
-              Calcular Economia
-            </button>
+            <S.EconomyButton onClick={handleCalculateEconomy}>
+              Calcular Economia!
+            </S.EconomyButton>
             {economy !== null && (
-              <p>Economia: R${economy * 12},00 por ano <span>R${economy},00 por mês</span></p>
+              <S.EconomyParagraph>Sua economia será de R${economy * 12},00 por ano! <br /> Cerca de R${economy},00 por mês!</S.EconomyParagraph>
             )}
           </S.SelectedOfferDiv>
         )}

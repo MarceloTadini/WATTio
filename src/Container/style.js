@@ -74,8 +74,9 @@ export const OffersDiv= styled.div`
 export const UlOffers = styled.ul`
   list-style-type: none;
   margin: 1rem 0;
+  cursor: pointer;
 `
-export const LiOffers = styled.div`
+export const LiOffers = styled.li`
   background-color: ${(props) => props.theme['green-500']};
   padding: 1.5rem;
   font-size: 1.6rem;
@@ -84,8 +85,10 @@ export const LiOffers = styled.div`
   display: flex;
   align-items: center;
 `
-export const LabelOffers = styled.div`
+export const LabelOffers = styled.label`
   font-weight: bold;
+  color: ${(props) => props.theme['white']};
+  cursor: pointer;
 `
 
 export const SelectedOfferDiv = styled.div`
@@ -96,6 +99,21 @@ export const SelectedOfferDiv = styled.div`
 export const SelectedOfferP = styled.p`
   font-size: 1.6rem;
   margin: 1rem 0;
+`
+
+export const EconomyButton = styled(CalculateButton)`
+  margin-top: 0;
+  width: 40rem;
+`
+export const EconomyParagraph = styled.p`
+  color: ${(props) => props.theme['gray-100']};
+  font-size: 1.6rem;
+  display: block;
+
+  padding: 2rem;
+  background-color: ${(props) => props.theme['green-500']};
+  margin: 1rem 0;
+  font-weight: bold;
 `
 
 export const BaseCountdownButton = styled.button`
